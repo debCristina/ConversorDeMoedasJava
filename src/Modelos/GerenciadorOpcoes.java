@@ -1,6 +1,7 @@
 package Modelos;
 
 import Excecoes.ErroOpcaoInvalida;
+import Excecoes.ErroResponseNulo;
 
 import java.io.IOException;
 
@@ -30,32 +31,39 @@ public class GerenciadorOpcoes {
     }
 
     public String processarOpcaoUsuario() throws IOException {
+        try{
+            switch (opcaoUsuario) {
+                case 1:
+                    dadosTaxaCambio = coletorTaxaCambio.coletarTaxas("USD", "ARS");
+                    break;
+                case 2:
+                    dadosTaxaCambio = coletorTaxaCambio.coletarTaxas("ARS", "USD");
+                    break;
+                case 3:
+                    dadosTaxaCambio = coletorTaxaCambio.coletarTaxas("USD", "BRL");
+                    break;
+                case 4:
+                    dadosTaxaCambio = coletorTaxaCambio.coletarTaxas("BRL", "USD");
+                    break;
+                case 5:
+                    dadosTaxaCambio = coletorTaxaCambio.coletarTaxas("USD", "COP");
+                    break;
+                case 6:
+                    dadosTaxaCambio = coletorTaxaCambio.coletarTaxas("COP", "USD");
+                    break;
+                default:
+                    throw new ErroOpcaoInvalida("Erro: Parece que houve um erro ao processar a opção escolhida");
 
-        switch (opcaoUsuario) {
-            case 1:
-                dadosTaxaCambio = coletorTaxaCambio.fetchExchangeRate("USD", "ARS");
-                break;
-            case 2:
-                dadosTaxaCambio = coletorTaxaCambio.fetchExchangeRate("ARS", "USD");
-                break;
-            case 3:
-                dadosTaxaCambio = coletorTaxaCambio.fetchExchangeRate("USD", "BRL");
-                break;
-            case 4:
-                dadosTaxaCambio = coletorTaxaCambio.fetchExchangeRate("BRL", "USD");
-                break;
-            case 5:
-                dadosTaxaCambio = coletorTaxaCambio.fetchExchangeRate("USD", "COP");
-                break;
-            case 6:
-                dadosTaxaCambio = coletorTaxaCambio.fetchExchangeRate("COP", "USD");
-                break;
-            default:
-                throw new ErroOpcaoInvalida("Erro: Parece que houve um erro ao processar a opção escolhida");
+            }
 
+            conversao.converte(valorConversao, dadosTaxaCambio.conversion_rate());
+            return "Valor: " + valorConversao + " " + dadosTaxaCambio.base_code() + " = " + conversao.getResultado() + " " + dadosTaxaCambio.target_code();
+        }catch (IOException e) {
+            return  "Erro de E/S ao processar a operação. " + e.getMessage();
+        } catch (ErroResponseNulo e) {
+            return e.getMessage();
+        } catch (RuntimeException e) {
+            return  "Erro inesperado ao processar a operação. " + e.getMessage();
         }
-
-        conversao.converte(valorConversao, dadosTaxaCambio.conversion_rate());
-        return "Valor: " + valorConversao + " " + dadosTaxaCambio.base_code() + " = " + conversao.getResultado() + " " + dadosTaxaCambio.target_code();
     }
 }

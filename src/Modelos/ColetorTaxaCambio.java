@@ -1,7 +1,7 @@
 package Modelos;
 
+import Excecoes.ErroResponseNulo;
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,20 +9,38 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class ColetorTaxaCambio {
+    private String apiKey = System.getenv("EXCHANGE_RATE_API_KEY");
 
-    public DadosTaxaCambio fetchExchangeRate (String moedaOrigem, String moedaDestino) throws IOException {
-        String url_str = "https://v6.exchangerate-api.com/v6/ccb7dd7cce31744fc85333f8/pair/" +moedaOrigem+"/"+moedaDestino;
+    public ColetorTaxaCambio () {
+        if (this.apiKey == null || this.apiKey.isEmpty()) {
+            throw new IllegalArgumentException("Chave API não configurada nas variáveis de ambiente.");
+        }
+    }
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url_str))
-                .build();
-
+    public DadosTaxaCambio coletarTaxas (String moedaOrigem, String moedaDestino) throws IOException {
+        String responseBody = null;
         try {
+            String url_str = "https://v6.exchangerate-api.com/v6/" +apiKey+ "/pair/" +moedaOrigem+"/"+moedaDestino;
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url_str))
+                    .build();
+
             HttpResponse<String> response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-            return new Gson().fromJson(response.body(), DadosTaxaCambio.class);
-        } catch (Exception e) {
-            throw new RuntimeException("Ops! Parece que ocorreu algum erro");
+            responseBody = response.body();
+
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            throw new RuntimeException("Ops! Paarece que ocorreu algum erro");
         }
+
+        if (responseBody != null) {
+            return new Gson().fromJson(responseBody, DadosTaxaCambio.class);
+        } else {
+            throw new ErroResponseNulo("Resposta da API de taxa de câmbio está vazia.");
+        }
+
     }
 }

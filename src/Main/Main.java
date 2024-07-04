@@ -39,10 +39,6 @@ public class Main {
                 }
             }catch (ErroOpcaoInvalida e) {
                 System.out.println(e.getMessage());
-            } catch (IOException e) {
-                System.out.println("Erro de E/S ao processar a operação. " + e.getMessage());
-            } catch (RuntimeException e) {
-                System.out.println("Erro inesperado ao processar a operação. " + e.getMessage());
             }
         }
         scanner.close();
