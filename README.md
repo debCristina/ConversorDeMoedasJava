@@ -24,7 +24,7 @@ O projeto está organizado da seguinte forma:
 - **Main**: Contém a classe principal (`Main`) que executa a interação com o usuário e controla o fluxo do programa.
 - **Excecoes**: Contém classes de exceção personalizadas para lidar com erros específicos durante a execução.
 
-### Como usar
+## Como usar
 
 1. **Clone o repositório para a sua máquina local:**
 2. **Configure a variável de ambiente `EXCHANGE_RATE_API_KEY` com sua chave de API da Exchange Rate API:**
@@ -33,7 +33,7 @@ O projeto está organizado da seguinte forma:
     - Certifique-se de que todas as dependências estejam configuradas corretamente.
     - Execute a classe principal (`Main`) para iniciar o conversor de moedas.
 
-### Minha experiência
+## Minha experiência
 
 Desenvolver este projeto foi uma jornada desafiadora e ao mesmo tempo extremamente gratificante. Sendo uma iniciante na linguagem Java, no uso de APIs e na realização de requisições HTTP, cada passo foi uma oportunidade de aprendizado.
 
@@ -41,5 +41,10 @@ Implementar todos os aspectos necessários para o funcionamento do conversor de 
 
 Embora o projeto ainda possa necessitar de melhorias futuras, ele representa um marco importante na minha trajetória de aprendizado. A experiência adquirida foi crucial para consolidar meus conhecimentos no Java, em programação orientada a objetos, manipulação de APIs, e tratamento de exceções em Java.
 
-### Autor
+## Autor
 Este projeto foi desenvolvido por Débora Cristina.
+
+## Badge
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/61718f3d-53fd-4cf4-8ccd-d257e0fe6a9b">
+</p>
